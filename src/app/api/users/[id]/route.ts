@@ -22,6 +22,16 @@ export async function PUT(
     await connectToDatabase();
     const { id } = await params;
     const body = await request.json();
+    const existingUser = await User.findOne({
+      email: body.email,
+      _id: { $ne: id },
+    });
+    if (existingUser) {
+      return NextResponse.json(
+        { error: "User email already exists" },
+        { status: 400 }
+      );
+    }
     const post = await User.findByIdAndUpdate(id, body, { new: true });
     return NextResponse.json(post);
   } catch (error) {
