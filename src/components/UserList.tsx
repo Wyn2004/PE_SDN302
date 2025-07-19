@@ -14,10 +14,11 @@ export function UserList() {
 
   const search = searchParams.get("search") || "";
   const sort = searchParams.get("sort") || "asc";
+  const group = searchParams.get("group") || "";
 
   useEffect(() => {
     fetchUsers();
-  }, [search, sort]);
+  }, [search, sort, group]);
 
   // Listen for user creation events to refresh the list
   useEffect(() => {
@@ -38,6 +39,7 @@ export function UserList() {
       const params = new URLSearchParams();
       if (search) params.append("search", search);
       if (sort) params.append("sort", sort);
+      if (group) params.append("group", group);
 
       const response = await fetch(`/api/users?${params}`);
       const data = await response.json();

@@ -8,11 +8,16 @@ export async function GET(request: NextRequest) {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search") || "";
     const sort = searchParams.get("sort") || "asc";
+    const group = searchParams.get("group") || "";
 
-    let query = {};
+    const query: any = {};
 
     if (search) {
-      query = { name: { $regex: search, $options: "i" } };
+      query.name = { $regex: search, $options: "i" };
+    }
+
+    if (group) {
+      query.group = group;
     }
 
     const sortOrder = sort === "desc" ? -1 : 1;
