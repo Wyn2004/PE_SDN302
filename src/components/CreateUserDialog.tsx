@@ -10,7 +10,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { useRouter } from "next/navigation";
 import { UserForm } from "./UserForm";
 
 interface CreateUserDialogProps {
@@ -19,11 +18,10 @@ interface CreateUserDialogProps {
 
 export function CreateUserDialog({ children }: CreateUserDialogProps) {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
 
   const handleSuccess = () => {
     setOpen(false);
-    window.location.reload();
+    window.dispatchEvent(new CustomEvent('userCreated'));
   };
 
   return (

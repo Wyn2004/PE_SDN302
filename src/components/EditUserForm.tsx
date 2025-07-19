@@ -34,6 +34,8 @@ export function EditUserForm({ userId }: EditUserFormProps) {
   };
 
   const handleSuccess = () => {
+    // Trigger event to refresh user list on the main page
+    window.dispatchEvent(new CustomEvent('userCreated'));
     router.push("/");
   };
 

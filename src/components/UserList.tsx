@@ -19,6 +19,19 @@ export function UserList() {
     fetchUsers();
   }, [search, sort]);
 
+  // Listen for user creation events to refresh the list
+  useEffect(() => {
+    const handleUserCreated = () => {
+      fetchUsers();
+    };
+
+    window.addEventListener('userCreated', handleUserCreated);
+    
+    return () => {
+      window.removeEventListener('userCreated', handleUserCreated);
+    };
+  }, []);
+
   const fetchUsers = async () => {
     try {
       setLoading(true);
@@ -38,7 +51,7 @@ export function UserList() {
 
   const handleDelete = async (id: string) => {
     try {
-      await fetch(`/api/posts/${id}`, { method: "DELETE" });
+      await fetch(`/api/users/${id}`, { method: "DELETE" });
       setUsers(users.filter((user) => user._id !== id));
     } catch (error) {
       console.error("Error deleting user:", error);
